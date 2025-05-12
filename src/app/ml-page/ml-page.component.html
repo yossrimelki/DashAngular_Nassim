@@ -1,0 +1,63 @@
+<div class="ml-page">
+  <div *ngIf="authService.currentUserValue?.role === 'logistics_manager'">
+  <h2>🧠 Product Classification</h2>
+  <form #classForm="ngForm" (ngSubmit)="predictClass(classForm)">
+    <label for="rest_quantity_class">Rest Quantity (float):</label>
+    <input type="number" step="any" name="rest_quantity" ngModel id="rest_quantity_class" required>
+
+    <label for="quantite_class">Quantity (float):</label>
+    <input type="number" step="any" name="quantite" ngModel id="quantite_class" required>
+
+    <label for="unit_price_class">Unit Price (€):</label>
+    <input type="number" step="any" name="unit_price" ngModel id="unit_price_class" required>
+
+    <label for="manufacture_date">Manufacture Date:</label>
+    <input type="date" name="manufacture_date" ngModel id="manufacture_date" required>
+
+    <label for="expiration_date">Expiration Date:</label>
+    <input type="date" name="expiration_date" ngModel id="expiration_date" required>
+
+    <button type="submit">Predict Class</button>
+  </form>
+  <div class="result">{{ classResult }}</div>
+</div>
+<div *ngIf="authService.currentUserValue?.role === 'marketing_manager'">
+  <h2>💲 Unit Price Prediction</h2>
+  <form #priceForm="ngForm" (ngSubmit)="predictPrice(priceForm)">
+    <label for="product_name">Product Name:</label>
+    <input type="text" name="product_name" ngModel id="product_name" placeholder="e.g. Aloe Serum" required>
+
+    <label for="quantite_price">Quantity (float):</label>
+    <input type="number" step="any" name="quantite_price" ngModel id="quantite_price" required>
+
+    <label for="material_category">Material Category:</label>
+    <input type="text" name="material_category" ngModel id="material_category" placeholder="e.g. Skincare" required>
+
+    <button type="submit">Predict Price</button>
+  </form>
+  <div class="result">{{ priceResult }}</div>
+</div>
+  <div *ngIf="authService.currentUserValue?.role === 'logistics_manager'">
+  <h2>📊 Cluster Assignment (KMeans)</h2>
+  <form #clusterForm="ngForm" (ngSubmit)="predictCluster(clusterForm)">
+    <label for="rest_quantity_cluster">Rest Quantity (float):</label>
+    <input type="number" step="any" name="rest_quantity_cluster" ngModel id="rest_quantity_cluster" required>
+
+    <label for="shelf_life">Shelf Life (days):</label>
+    <input type="number" step="any" name="shelf_life" ngModel id="shelf_life" required>
+
+    <label for="days_since_manufacture">Days Since Manufacture:</label>
+    <input type="number" step="any" name="days_since_manufacture" ngModel id="days_since_manufacture" required>
+
+    <button type="submit">Predict Cluster</button>
+  </form>
+  <div class="result">{{ clusterResult }}</div>
+  </div>
+  <div *ngIf="authService.currentUserValue?.role === 'marketing_manager'">
+    <h2>📈 Sales Forecast (Prophet)</h2>
+    <label for="forecast_date">Select Start Date for Forecast:</label>
+    <input type="date" id="forecast_date">
+    <button type="button" (click)="fetchForecast()">Show Next 6-Month Forecast</button>
+    <div class="result" [innerHTML]="forecastHtml"></div>
+  </div>
+</div>

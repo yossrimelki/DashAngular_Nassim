@@ -1,0 +1,83 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Edit Profile</h4>
+            <p class="card-category">Complete your profile</p>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+              <div class="row">
+                
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Username" formControlName="username">
+                    <mat-error *ngIf="profileForm.get('username').invalid">Username is required</mat-error>
+                  </mat-form-field>
+                </div>
+               
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Email address" type="email" formControlName="email">
+                    <mat-error *ngIf="profileForm.get('email').hasError('required')">Email is required</mat-error>
+                    <mat-error *ngIf="profileForm.get('email').hasError('email')">Please enter a valid email</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              
+              
+              
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="New Password (leave blank to keep current)" type="password" formControlName="password">
+                  </mat-form-field>
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <h4>Profile Image</h4>
+                  <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput class="d-none">
+                  <button mat-raised-button type="button" class="btn btn-info" (click)="fileInput.click()">
+                    <i class="material-icons">add_photo_alternate</i> Choose Image
+                  </button>
+                  <div *ngIf="profileImagePreview" class="mt-3">
+                    <img [src]="profileImagePreview" style="max-width: 200px; max-height: 200px;">
+                  </div>
+                </div>
+              </div>
+              
+              <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="profileForm.invalid || isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
+                Update Profile
+              </button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-profile">
+          <div class="card-avatar">
+            <a href="javascript:void(0)">
+              <img class="img" [src]="profileImagePreview || 'assets/img/default-avatar.png'" alt="Profile Image" />
+            </a>
+          </div>
+          <div class="card-body">
+            <h6 class="card-category text-gray">{{ user?.role | titlecase }}</h6>
+            <h4 class="card-title">{{ user?.username }}</h4>
+            <p class="card-description">{{ user?.email }}</p>
+            <p class="card-description">Role: {{ user?.role | titlecase }}</p>
+            <p class="card-description">Joined: {{ user?.created_at | date:'mediumDate' }}</p>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
